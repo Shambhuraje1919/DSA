@@ -3,60 +3,60 @@
 
 // Moore’s Voting Algorithm => Time Complexity: O(n), Space Complexity: O(1)
 
-import java.util.*;
-import java.io.*;
-import java.lang.*;
+/**
+ * Majority Element using Moore's Voting Algorithm.
+ *
+ * An element is a majority if it appears more than n/2 times.
+ *
+ * Time Complexity: O(n)
+ * Space Complexity: O(1)
+ */
+public final class MajorityElement {
 
-class Main {
-    public static void main(String args[]) {
-        Scanner sc = new Scanner(System.in);
-        int t = sc.nextInt();
-        
-        while(t-- > 0) {
-            int n =sc.nextInt();
-            int arr[] = new int[n];
-            
-            for(int i = 0; i < n; i++)
-             arr[i] = sc.nextInt();
-             
-           System.out.println(new Solution().majorityElement(arr, n)); 
+    private MajorityElement() {
+        // Utility class
+    }
+
+    public static int findMajority(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return -1;
         }
-    }
-}
 
-class Solution
-{
-    static int majorityElement(int a[], int size){
-        int cand = findCand(a, size);
-        if(isMajority(a, size, cand))
-            return cand;
-        return -1;
+        int candidate = findCandidate(nums);
+
+        return isMajority(nums, candidate) ? candidate : -1;
     }
-    
-    static int findCand(int arr[], int n){
-        int max_index=0; int count=1;
-        for(int i=1; i<n; i++){
-            if(arr[max_index]==arr[i])
+
+    private static int findCandidate(int[] nums) {
+        int candidate = nums[0];
+        int count = 1;
+
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[i] == candidate) {
                 count++;
-            else count--;
-            if(count==0){
-                max_index=i;
-                count=1;
+            } else {
+                count--;
+            }
+
+            if (count == 0) {
+                candidate = nums[i];
+                count = 1;
             }
         }
-        return arr[max_index];
+        return candidate;
     }
-    
-    static boolean isMajority(int arr[], int n, int cand){
-        int count=0;
-        for(int i=0; i<n; i++){
-            if(cand==arr[i])
+
+    private static boolean isMajority(int[] nums, int candidate) {
+        int count = 0;
+        for (int num : nums) {
+            if (num == candidate) {
                 count++;
+            }
         }
-        if(count > n/2) return true;
-        return false;
+        return count > nums.length / 2;
     }
 }
+
 
 /* Test Case: 
 Input:
